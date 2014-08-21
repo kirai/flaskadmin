@@ -1,11 +1,14 @@
 from flask import Flask
-from flask.ext.admin import Admin
+from flask.ext.admin import Admin, BaseView, expose
+
+class MyView(BaseView):
+    @expose('/')
+    def index(self):
+        return self.render('index.html')
+
 app = Flask(__name__)
 
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
+admin = Admin(app)
+admin.add_view(MyView(name='Hello'))
 
-if __name__ == '__main__':
-    admin = Admin(app)
-    app.run()
+app.run()
